@@ -11,7 +11,25 @@
     </properties>
 
     <dependencies>
-            <!-- Still Empty For Now -->
+    	<dependency>
+		  <groupId>com.google.inject</groupId>
+		  <artifactId>guice</artifactId>
+		  <!-- {version} can be 5.1.0, 6.0.0-rc2, 7.0.0-rc1, etc. -->
+		  <version>7.0.0-rc1</version>
+		</dependency>
+		<dependency>
+		  <groupId>com.google.inject.extensions</groupId>
+		  <!-- {extension-name} can be one of: assistedinject, dagger-adapter,
+		       grapher, jmx, jndi, persist, spring, testlib or throwingproviders -->
+		  <artifactId>guice-jmx</artifactId>
+		  <!-- {version} must match the guice core version. -->
+		  <version>7.0.0-rc1</version>
+		</dependency>
+		<dependency>
+	        <groupId>com.fasterxml.jackson.core</groupId>
+	        <artifactId>jackson-databind</artifactId>
+	        <version>2.13.0</version>
+	    </dependency>
     </dependencies>
 
     <build>
@@ -23,15 +41,23 @@
             </plugin>
 			<plugin>
 			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-jar-plugin</artifactId>
-			    <version>3.2.0</version>
-			    <configuration>
-			        <archive>
-			            <manifest>
-			                <mainClass>com.smthasa.ApplicationLauncher</mainClass>
-			            </manifest>
-			        </archive>
-			    </configuration>
+			    <artifactId>maven-shade-plugin</artifactId>
+			    <version>3.2.4</version>
+			    <executions>
+			        <execution>
+			            <phase>package</phase>
+			            <goals>
+			                <goal>shade</goal>
+			            </goals>
+			            <configuration>
+			                <transformers>
+			                    <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+			                        <mainClass>com.smthasa.ApplicationLauncher</mainClass>
+			                    </transformer>
+			                </transformers>
+			            </configuration>
+			        </execution>
+			    </executions>
 			</plugin>
         </plugins>
     </build>
